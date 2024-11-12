@@ -31,7 +31,7 @@
 //             else{
 //                 alert("both password should be matched..")
 //             }
-            
+
 //         }
 //     }
 
@@ -55,12 +55,11 @@
 // export default Registration
 
 
-
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+const SERVER_PORT = process.env.SERVER_PORT || "http://localhost:4001";
 
 const Registration = () => {
   let [name, setName] = useState('');
@@ -75,12 +74,14 @@ const Registration = () => {
       email,
       password,
     };
-    if (!name || !email || !cnfPassword) {
+
+    console.log("Payload", payload);
+    if (!name || !email || !password || !cnfPassword) {
       alert("Please fill in all fields to register.");
     } else {
       if (password === cnfPassword) {
         axios
-          .post('http://localhost:4001/register', payload)
+          .post(`${SERVER_PORT}/register`, payload)
           .then((response) => {
             alert(response.data);
             navigate('/');

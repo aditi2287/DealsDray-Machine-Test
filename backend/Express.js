@@ -148,9 +148,6 @@
 // })
 
 
-
-
-
 let express = require("express");
 let mongoose = require("mongoose");
 let bodyParser = require("body-parser");
@@ -163,8 +160,10 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/loginCredentials";
+
 // MongoDB connection
-mongoose.connect("mongodb://127.0.0.1:27017/loginCredentials");
+mongoose.connect(MONGODB_URI);
 mongoose.connection
     .once("open", () => { console.log("Connected to DB..."); })
     .on("error", () => { console.log("Problem connecting to DB."); });
@@ -177,6 +176,7 @@ app.post("/register", (req, res) => {
                 res.json("Email already registered.");
             } else {
                 let dataForDB = new registeredUsers(req.body);
+                console.log("dataForDB", dataForDB);
                 dataForDB.save()
                     .then(() => { res.json("Input stored in DB successfully."); })
                     .catch(() => { res.json("Error saving data."); });
@@ -189,7 +189,7 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
     registeredUsers.findOne({ email: req.body.email })
         .then((user) => {
-            if (user && user.cnfPassword === req.body.password) {
+            if (user && user.password === req.body.password) {
                 res.json({ status: "success", id: user._id });
             } else {
                 res.json({ status: "fail" });
