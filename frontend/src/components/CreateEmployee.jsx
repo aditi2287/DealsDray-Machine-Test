@@ -202,6 +202,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+const SERVER_PORT = process.env.SERVER_PORT || "http://localhost:4001";
 
 const CreateEmployee = () => {
   const navigate = useNavigate();
@@ -229,7 +230,7 @@ const CreateEmployee = () => {
       course
     };
 
-    axios.post("http://localhost:4001/employees", formData)
+    axios.post(`${SERVER_PORT}/employees`, formData)
       .then((response) => {
         alert(response.data);
         navigate("/employee-list");

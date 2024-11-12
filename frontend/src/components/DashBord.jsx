@@ -42,13 +42,14 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { Link, useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
+const SERVER_PORT = process.env.SERVER_PORT || "http://localhost:4001";
 
 const DashBord = () => {
   let [name, setName] = useState("");
   let ID = useParams();
 
   useEffect(() => {
-    axios.get(`http://localhost:4001/user/${ID.ID}`)
+    axios.get(`${SERVER_PORT}/user/${ID.ID}`)
       .then((e) => {
         setName(e.data);
       })

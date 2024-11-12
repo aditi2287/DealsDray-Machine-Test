@@ -52,6 +52,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Button from '@mui/material/Button';
+const SERVER_PORT = process.env.SERVER_PORT || "http://localhost:4001";
 
 const Login = () => {
   let [email, setEmail] = useState('');
@@ -60,7 +61,7 @@ const Login = () => {
 
   const login = () => {
     let payload = { email, password };
-    axios.post('http://localhost:4001/login', payload)
+    axios.post(`${SERVER_PORT}/login`, payload)
       .then((response) => {
         if (response.data.status === "success") {
           navigate(`/dashbord/${response.data.id}`);

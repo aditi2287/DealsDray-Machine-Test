@@ -19,7 +19,7 @@
 //                 console.log("error from EmployeeList useEffect");
 //             })
 //             setReload(1)
-        
+
 //     },[reload])
 //     let deleteUser = (e)=>{
 //       axios.delete(`http://localhost:4001/employee-list/${e}`)
@@ -61,7 +61,7 @@
 //             </tr>
 //           ))}
 //         </tbody>
-        
+
 //        </table>
 //     </div>
 //   )
@@ -70,19 +70,19 @@
 // export default EmployeeList
 
 
-
-
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
+
+const SERVER_PORT = process.env.SERVER_PORT || "http://localhost:4001";
 
 const EmployeeList = () => {
   let [infoFromDB, setinfoFromDB] = useState([]);
   let [reload, setReload] = useState(0);
 
   useEffect(() => {
-    axios.get("http://localhost:4001/employee-list")
+    axios.get(`${SERVER_PORT}/employee-list`)
       .then((e) => {
         setinfoFromDB(e.data);
       })
@@ -93,7 +93,7 @@ const EmployeeList = () => {
   }, [reload]);
 
   let deleteUser = (e) => {
-    axios.delete(`http://localhost:4001/employee-list/${e}`)
+    axios.delete(`${SERVER_PORT}/employee-list/${e}`)
       .then(() => {
         setReload(reload + 1);
       })
@@ -121,7 +121,7 @@ const EmployeeList = () => {
         </thead>
         <tbody className='text-center text-[15px]'>
           {infoFromDB.map((item, i) => (
-            <tr key={item.id}>
+            <tr key={i}>
               <td className='border-2 border-blue-700'>{i + 1}</td>
               <td className='border-2 border-blue-700'>{item.name}</td>
               <td className='border-2 border-blue-700'>{item.email}</td>

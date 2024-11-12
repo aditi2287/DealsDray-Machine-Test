@@ -224,13 +224,10 @@
 
 // export default EditEmployee;
 
-
-
-
-
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+const SERVER_PORT = process.env.SERVER_PORT || "http://localhost:4001";
 
 const EditEmployee = () => {
   const [name, setName] = useState("");
@@ -244,7 +241,7 @@ const EditEmployee = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:4001/employee-list/${ID}`)
+    axios.get(`${SERVER_PORT}/employee-list/${ID}`)
       .then((response) => {
         setName(response.data.name);
         setEmail(response.data.email);
@@ -279,7 +276,7 @@ const EditEmployee = () => {
       course: courses
     };
 
-    axios.put(`http://localhost:4001/employee-list/${ID}`, formData)
+    axios.put(`${SERVER_PORT}/employee-list/${ID}`, formData)
       .then((response) => {
         alert(response.data);
         navigate("/employee-list");
